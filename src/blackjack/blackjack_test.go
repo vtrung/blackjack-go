@@ -1,15 +1,18 @@
 package blackjack
 
 import "testing"
+import "fmt"
 
 //Test Card Class
 func TestCard(t *testing.T){
+	fmt.Println("== Testing Card ==")
 	card := Card{
-		"test1",
-		1,
+		"J of Spades",
+		10,
 	}
+	fmt.Println("** Print Card")
 	card.Display()
-	expname := "test1"
+	expname := "J of Spades"
 	if card.Name != expname {
 		t.Errorf("got %v want %v given", expname, card.Name)
 	}
@@ -17,6 +20,7 @@ func TestCard(t *testing.T){
 
 //Testing Deck Class
 func TestDeck(t *testing.T) {
+	fmt.Println("== Testing Deck ==")
 	// check deck is filled with all cards
 	deck := Deck{}
 	deck.New()
@@ -46,8 +50,28 @@ func TestDeck(t *testing.T) {
 
 }
 
+
+func TestHand(t *testing.T){
+	fmt.Println("== Testing Hand ==")
+	hand := NewHand()
+	card1 := Card{
+		"J of Spades",
+		10,
+	}
+	hand.ReceiveCard(card1);
+	if hand.Count() != 1 {
+		t.Errorf("Hand should have 1 card got %d instead", hand.Count())
+	}
+
+	hand.Discard()
+	if hand.Count() != 0{
+		t.Errorf("Hand should have 0 card got %d instead", hand.Count())
+	}
+}
+
 //Testing Player Class
 func TestPlayerDealer(t *testing.T){
+	fmt.Println("== Testing Player/Dealer ==")
 	player := NewPlayer("Player1")
 	dealer := NewDealer()
 
@@ -59,11 +83,21 @@ func TestPlayerDealer(t *testing.T){
 		t.Errorf("Player should have 1 card got %d instead", player.Hand.Count())
 	}
 
+	if !FindCardInArray(card1, player.Hand.Cards){
+		t.Errorf("Player picked up wrong card")
+	}
+
 	if dealer.Deck.Count() != 51{
 		t.Errorf("Dealer Deck should have 51 card got %d instead", dealer.Deck.Count())
 	}
-	
+
+	if FindCardInArray(card1, dealer.Deck.Cards){
+		t.Errorf("Dealer Deck discard wrong card")
+	}
+
 }
+
+
 
 func TestGame(t *testing.T) {
 	

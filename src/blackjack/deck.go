@@ -2,7 +2,6 @@
 package blackjack
 
 import "math/rand"
-import "fmt"
 import "time"
 
 type Deck struct {
@@ -59,7 +58,6 @@ func (d *Deck) Shuffle() {
 			newslice[i] = d.Cards[randIndex]
 		}
 
-		fmt.Println(newslice)
 		d.Cards = newslice
 	}
 }
