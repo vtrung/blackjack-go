@@ -76,7 +76,7 @@ func TestPlayerDealer(t *testing.T){
 	dealer := NewDealer()
 
 	card1 := dealer.DealCard()
-	player.ReceiveCard(&card1)
+	player.ReceiveCard(card1)
 
 	//Test Player Hand
 	if player.Hand.Count() != 1 {
@@ -100,10 +100,32 @@ func TestPlayerDealer(t *testing.T){
 
 
 func TestGame(t *testing.T) {
-	
-	//deck := NewDeck()
+	fmt.Println("== Testing Game ==")
+	game := NewGame()
+	player1 := NewPlayer("Player1")
+	player2 := NewPlayer("Player2")
 
-	//deck.Display()
+	game.AddPlayer(player1)
+	game.AddPlayer(player2)
+
+	if game.PlayerCount() != 2 {
+		t.Errorf("Expected Playcount %v, got %v", 2, game.PlayerCount())
+	}
+
+	game.StartGame()
+
+	for _,p := range game.Players{
+		count :=  p.Hand.Count()
+		if count != 2 {
+			t.Errorf("Player expected to have %v, got %v", 2, count)
+		}
+	}
+
+	game.NextRound()
+	
+	game.Evaluate()
+
+	game.EndGame()
 
 }
 

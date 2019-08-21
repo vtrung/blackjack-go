@@ -12,8 +12,8 @@ func NewPlayer(name string) *Player{
 	return &player
 }
 
-func(p *Player) ReceiveCard(card *Card){
-	p.Hand.ReceiveCard(*card)
+func(p *Player) ReceiveCard(card Card){
+	p.Hand.ReceiveCard(card)
 }
 
 func(p *Player) Prompt(){

@@ -43,6 +43,10 @@ func (h *Hand) IsBlackJack() bool {
 	return false
 }
 
+func (h *Hand) IsOver() bool{
+	return (h.Value() > 21)
+}
+
 func (h *Hand) Display(){
 	for _, c := range h.Cards{
 		c.Display()

@@ -17,27 +17,33 @@ func NewGame() *Game{
 }
 
 func (g *Game) StartGame(){
-	for _, p := range g.Players {
+	for i, _ := range g.Players {
 		card1 := g.Dealer.DealCard()
 		card2 := g.Dealer.DealCard()
-		p.ReceiveCard(&card1)
-		p.ReceiveCard(&card2)
+		//p.ReceiveCard(card11)
+		g.Players[i].ReceiveCard(card1)
+		g.Players[i].ReceiveCard(card2)
+		//p.ReceiveCard(card21)
 	}
 	card1 := g.Dealer.DealCard()
 	card2 := g.Dealer.DealCard()
-	g.Dealer.Player.ReceiveCard(&card1)
-	g.Dealer.Player.ReceiveCard(&card2)
+	g.Dealer.Player.ReceiveCard(card1)
+	g.Dealer.Player.ReceiveCard(card2)
+	fmt.Printf("\nGame Start\n\n")
+	fmt.Println("Dealer last card")
 	card2.Display()
 }
 
 func (g *Game) NextRound(){
+	fmt.Printf("\nStatus\n\n")
 	for _, p := range g.Players {
+		println(p.Name)
 		p.Prompt()
 	}
 }
 
-func (g *Game) AddPlayer(player Player){
-	g.Players = append(g.Players, player)
+func (g *Game) AddPlayer(player *Player){
+	g.Players = append(g.Players, *player)
 }
 
 func (g *Game) PlayerCount() int{
@@ -45,20 +51,37 @@ func (g *Game) PlayerCount() int{
 }
 
 func (g *Game) Evaluate() {
-	
-	g.Dealer.Player.Hand.Display()
+	fmt.Printf("\nEvaluation Game\n\n")
+	fmt.Println("==Dealer===")
+	for _, c := range g.Dealer.Player.Hand.Cards{
+		fmt.Println(c.Name)
+	}
+
 	dealerBlackJack := g.Dealer.Player.Hand.IsBlackJack()
 	for !dealerBlackJack && g.Dealer.Player.Hand.Value() < 17 {
 		card := g.Dealer.DealCard()
-		g.Dealer.Player.ReceiveCard(&card)
-		card.Display()
+		g.Dealer.Player.ReceiveCard(card)
+		fmt.Println("Draw - " + card.Name)
+	}
+	fmt.Printf("Dealer Value: %v\n", g.Dealer.Player.Hand.Value())
+	dealerOver := g.Dealer.Player.Hand.IsOver()
+	if dealerOver {
+		fmt.Println("Dealer Over")
 	}
 	
+	fmt.Println("== Players ===")
 
 	for _, p := range g.Players{
 		fmt.Println(p.Name)
-		p.Hand.Display()
-		if p.Hand.IsBlackJack(){
+		for _, c := range p.Hand.Cards{
+			fmt.Println(c.Name)
+		}
+		fmt.Printf("Value: %v\n", p.Hand.Value())
+		if p.Hand.IsOver(){
+			fmt.Println("Lose")
+		} else if dealerOver{
+			fmt.Println("Win")
+		} else if p.Hand.IsBlackJack(){
 			if dealerBlackJack{
 				fmt.Println("Draw")
 			} else {
@@ -66,9 +89,12 @@ func (g *Game) Evaluate() {
 			}
 		} else if dealerBlackJack || g.Dealer.Player.Hand.Value() > p.Hand.Value(){
 			fmt.Println("Lose")
+		} else if g.Dealer.Player.Hand.Value() == p.Hand.Value(){
+			fmt.Println("Draw")
 		} else {
 			fmt.Println("Win")
 		}
+		fmt.Println()
 	}
 }
 
