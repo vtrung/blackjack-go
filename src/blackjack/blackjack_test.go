@@ -102,30 +102,56 @@ func TestPlayerDealer(t *testing.T){
 func TestGame(t *testing.T) {
 	fmt.Println("== Testing Game ==")
 	game := NewGame()
+
+	// Dealers Deck should have 52 cards at start of game
+	if game.Dealer.Deck.Count() != 52{
+		t.Errorf("Expected Deck Count %v, got %v", 52, game.Dealer.Deck.Count())
+	}
+
 	player1 := NewPlayer("Player1")
 	player2 := NewPlayer("Player2")
 
 	game.AddPlayer(player1)
 	game.AddPlayer(player2)
 
+	// There should be 2 players
 	if game.PlayerCount() != 2 {
 		t.Errorf("Expected Playcount %v, got %v", 2, game.PlayerCount())
 	}
 
 	game.StartGame()
 
+	// Dealers Deck should have 46 cards after passing 2 cards each to players and self
+	if game.Dealer.Deck.Count() != 46{
+		t.Errorf("Expected Deck Count %v, got %v", 48, game.Dealer.Deck.Count())
+	}
+
+	// Each player should have 2 cards
 	for _,p := range game.Players{
 		count :=  p.Hand.Count()
 		if count != 2 {
 			t.Errorf("Player expected to have %v, got %v", 2, count)
 		}
 	}
-
-	game.NextRound()
 	
+	fmt.Println("== Testing Game Printout ==")
+	game.NextRound()
+
 	game.Evaluate()
 
 	game.EndGame()
+	// Each player should have 0 cards
+	for _,p := range game.Players{
+		count :=  p.Hand.Count()
+		if count != 0 {
+			t.Errorf("Player expected to have %v, got %v", 0, count)
+		}
+	}
+
+	// Dealers Deck should have 52 cards after drawing new deck at endgame
+	if game.Dealer.Deck.Count() != 52{
+		t.Errorf("Expected Deck Count %v, got %v", 52, game.Dealer.Deck.Count())
+	}
 
 }
 

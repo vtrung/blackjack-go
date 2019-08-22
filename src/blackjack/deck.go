@@ -72,9 +72,15 @@ func (d *Deck) Draw() *Card {
 	//draw top
 	//card1 := Card{"1 Diamond", 1}
 	//POP card from end
-	card1 := d.Cards[len(d.Cards)-1]
-	d.Cards = d.Cards[:len(d.Cards)-1]
-	return &card1
+	if d.Count() > 0 {
+		card1 := d.Cards[len(d.Cards)-1]
+		d.Cards = d.Cards[:len(d.Cards)-1]
+		return &card1
+	} else {
+		return nil
+	}
+
+	
 	//return nil
 }
 

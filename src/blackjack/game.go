@@ -99,8 +99,9 @@ func (g *Game) Evaluate() {
 }
 
 func (g *Game) EndGame(){
-	g.Dealer.Player.Hand.Discard()
-	for _, p := range g.Players{
-		p.Hand.Discard()
+	g.Dealer.Player.Discard()
+	for i, _ := range g.Players{
+		g.Players[i].Discard()
 	}
+	g.Dealer.GetNewDeck()
 }

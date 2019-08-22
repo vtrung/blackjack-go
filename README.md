@@ -6,6 +6,13 @@ A classic BlackJack card game library in GO
 Go package can be used to run a blackjack game. It is also an exercise in Object Oriented Design and 
 Test-driven Development
 
+## Usage
+add: import "github.com/vtrung/blackjack-go/src/blackjack"
+
+## Testing
+run in package directory: 'go test'
+see blackjack_test.go for testing parameters
+
 ## Classes
 
 ### Card
@@ -24,32 +31,32 @@ Test-driven Development
 ### Hand
 * Constructor NewHand()
 * Cards []Card
-* ReceiveCard(card Card)
-* Count()
-* Value()
-* IsBlackJack()
-* Discard()
-* Display()
+* ReceiveCard(card Card) - Recieve card and place it in hand
+* Count() - return int. Count of card in hand
+* Value() - return int. Highest Blackjack hand value
+* IsBlackJack() - return bool.  Is this hand a blackjack
+* Discard() - drop cards
+* Display() - prints cards in hand
 
 ### Player
 * Constructor NewPlayer(name string)
 * Name string
 * Hand Hand
 * Hold bool
-* ReceiveCard(card *Card)
-* Prompt()
+* ReceiveCard(card *Card) - take card and place in hand
+* Prompt() - print users cards
 
 ### Dealer
 * Inherits Player
 * Constructor NewDealer()
-* DealCard()
-* GetNewDeck()
+* DealCard() - return Card. draw a card from the deck and return it
+* GetNewDeck() - discard current deck and get a new shuffled deck
 
 ### Game
 * Constructor NewGame()
-* StartGame()
-* NextRound()
-* AddPlayer(player Player)
-* PlayerCount()
-* Evaluate()
-* EndGame()
+* StartGame() - Start first phase of blackjack game, pass 2 cards to each player and dealer
+* NextRound() - Print cards of each player
+* AddPlayer(player Player) - Add player to game
+* PlayerCount() - return int. number of players in game
+* Evaluate() - evaluate value of all players and dealer and determine win/lose/draw
+* EndGame() - End game by discard hands and grabbing new deck
