@@ -10,7 +10,7 @@ Test-driven Development
 add: import "github.com/vtrung/blackjack-go/src/blackjack"
 
 ## Testing
-run in package directory: 'go test'
+run in package directory: 'go test' <br/>
 see blackjack_test.go for testing parameters
 
 ## Classes
